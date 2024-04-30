@@ -1,0 +1,6 @@
+lib
+types
+bin
+website
+*.js
+!src/**/*

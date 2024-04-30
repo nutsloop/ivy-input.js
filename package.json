@@ -1,0 +1,74 @@
+{
+  "name": "@ivy-industries/input",
+  "version": "1.0.0-alpha.1",
+  "license": "Apache-2.0",
+  "description": "CLI design library. ESModule",
+  "type": "module",
+  "main": "index.js",
+  "bin": {
+    "input": "bin/input.js"
+  },
+  "types": "./types/index.d.ts",
+  "engines": {
+    "node": "^21"
+  },
+  "files": [
+    "bin",
+    "lib",
+    "index.js",
+    "types"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "npx tsc && chmod u+x ./bin/input.js",
+    "clean": "./scripts/clean.sh",
+    "lint": "npx eslint . --ext .ts",
+    "lint-fix": "npx eslint . --fix --ext .ts",
+    "tsc-watch": "npx tsc-watch --onSuccess \"chmod u+x ./bin/input.js\"",
+    "update": "npx npm-check-updates -u",
+    "eslint-watch": "npx esw --watch . --ext .ts --fix"
+  },
+  "devDependencies": {
+    "@types/node": "^20.12.7",
+    "@types/validate-npm-package-name": "^4.0.2",
+    "@typescript-eslint/eslint-plugin": "^7.8.0",
+    "@typescript-eslint/parser": "^7.8.0",
+    "eslint": "^8.57.0",
+    "eslint-plugin-perfectionist": "^2.10.0",
+    "eslint-watch": "^8.0.0",
+    "npm-check-updates": "^16.14.20",
+    "tsc-watch": "^6.2.0",
+    "typescript": "^5.4.5"
+  },
+  "dependencies": {
+    "@ivy-industries/ansi": "^1.0.0-alpha.1",
+    "@ivy-industries/cross-path": "^1.0.0-alpha.1",
+    "semver": "^7.6.0",
+    "validate-npm-package-name": "^5.0.0"
+  },
+  "keywords": [
+    "cli",
+    "design",
+    "library",
+    "esmodule",
+    "thread"
+  ],
+  "funding": [
+    {
+      "type": "github",
+      "url": "https://github.com/sponsors/simonedelpopolo"
+    }
+  ],
+  "author": {
+    "name": "ivy-industries",
+    "email": "grow@ivy.run",
+    "url": "https://github.com/ivy-industries"
+  },
+  "homepage": "https://github.com/ivy-industries/input#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ivy-industries/input.git"
+  }
+}

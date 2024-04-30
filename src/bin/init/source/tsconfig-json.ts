@@ -1,0 +1,25 @@
+export function tsconfig_json(): string{
+
+  return `{
+  "compilerOptions": {
+    "module": "nodenext",
+    "target": "esnext",
+    "moduleResolution": "nodenext",
+    "outDir": "./",
+    "resolveJsonModule": true,
+    "allowSyntheticDefaultImports": true,
+    "declaration": true,
+    "allowJs": false,
+    "experimentalDecorators": true,
+    "declarationDir": "./types",
+    "listEmittedFiles": true
+  },
+  "include": [
+    "./src/**/*"
+  ],
+  "exclude": [
+    "./node_modules/**/*"
+  ]
+}
+`;
+}
