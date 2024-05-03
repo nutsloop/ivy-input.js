@@ -1,10 +1,9 @@
 import { cwd } from '@ivy-industries/cross-path';
-import cluster from 'cluster';
+import cluster from 'node:cluster';
+import { inspect } from 'node:util';
 
 import type { RunWithoutCommandOptions } from './cli.js';
 
-import { not_handle_async_warn } from './cli/constant/not_handle_async_warn.js';
-import { InputError } from './error.js';
 import { type ParsedArgv, parser } from './parser.js';
 
 export type ProcessArgv = NodeJS.Process['argv'] | string[];
@@ -71,19 +70,7 @@ export async function run( argv: ProcessArgv, logic: CLILogic, process_title: st
     process.on( 'uncaughtException', ( uncaught_error: ( Buffer | string ) & Error ) => {
 
       process.stderr.write( '\ncatching uncaught errors\n'.green() );
-      const input_error = new InputError( uncaught_error.message || uncaught_error );
-      if( input_error.toString().includes( not_handle_async_warn ) ){
-
-        process.stderr.write( `${input_error.toString()
-          .replace( not_handle_async_warn, '' )
-          .replace( '"', '' )
-          .slice( 0, - 2 )}.`.red()
-        );
-      }
-      else{
-        process.stderr.write( `${input_error.toString()}`.red() );
-      }
-      process.stderr.write( `${input_error.stack.replace( input_error.toString(), '' )}`.blue() );
+      process.stderr.write( inspect( uncaught_error, { colors: true, depth:Infinity, showHidden: true } ) );
       process.exit( 1 );
     } );
   }
