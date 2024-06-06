@@ -29,7 +29,7 @@ set_cli_info_specification( {
   name: '@ivy-industries/input',
   npmjs: 'https://www.npmjs.com/package/@ivy-industries/input',
   usage: spec_usage,
-  version: '1.0.0-alpha.2',
+  version: '1.0.0-alpha.3',
   website: 'https://www.ivy.run'
 } );
 

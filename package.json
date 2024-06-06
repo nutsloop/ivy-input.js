@@ -1,6 +1,6 @@
 {
   "name": "@ivy-industries/input",
-  "version": "1.0.0-alpha.2",
+  "version": "1.0.0-alpha.3",
   "license": "Apache-2.0",
   "description": "CLI design library. ESModule",
   "type": "module",
