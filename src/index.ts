@@ -1,9 +1,9 @@
 export { cli, run_without_command } from './lib/cli.js';
-export { type CallBackWithoutCommand, CallBackWithoutCommandData } from './lib/cli.js';
+export type { CallBackWithoutCommand, CallBackWithoutCommandData } from './lib/cli.js';
 export { command } from './lib/cli/command.js';
 export { set_reserved } from './lib/cli/constant/reserved.js';
 export { flag } from './lib/cli/flag.js';
-export type{ FlagThreadSpecification } from './lib/cli/flag.js';
+export type { FlagThreadSpecification } from './lib/cli/flag.js';
 export { global } from './lib/cli/global.js';
 export {
   get_specification,
@@ -30,6 +30,7 @@ export { thread_setter } from './lib/cli/thread/setter.js';
 export { InputError } from './lib/error.js';
 export { CLIThreadEventEmitter } from './lib/event/emitter.js';
 export type { ParsedArgv } from './lib/parser.js';
+export type { GlobalFlagDeclaration } from './lib/parser/global.js';
 export {
   get_global_declaration,
   has_global,
