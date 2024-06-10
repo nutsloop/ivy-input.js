@@ -86,13 +86,13 @@ function set_flag( identifier: string|string[], specification: FlagSpecification
 
     for( const flag of identifier ){
 
-      is_alpha_identifier( flag, '-> flag' );
+      is_alpha_identifier( flag, 'flag' );
       process_flag( flag, specification );
     }
   }
   else{
 
-    is_alpha_identifier( identifier, '-> flag' );
+    is_alpha_identifier( identifier, 'flag' );
     process_flag( identifier, specification );
   }
 }

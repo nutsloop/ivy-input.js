@@ -21,13 +21,13 @@ export function command_option( argv0: ShallowCopyProcessArgv[0] ): Map<string, 
       throw( `equal sign requires a value @ '${ argv0 }' @ processing command option.` );
     }
 
-    is_alpha_identifier( argv0.split( '=' )[ 0 ], '-> parser(argv)' );
+    is_alpha_identifier( argv0.split( '=' )[ 0 ], 'parser(argv)' );
     const [ command, option ] = argv0.split( '=' );
 
     return process_option( option, command );
   }
 
-  is_alpha_identifier( argv0, '-> parser(argv)' );
+  is_alpha_identifier( argv0, 'parser(argv)' );
 
   return new Map( [ [ argv0, null ] ] );
 }

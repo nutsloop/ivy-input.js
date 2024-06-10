@@ -21,7 +21,7 @@ const cbTypeSet = new Set( [ 'async', 'promise', 'sync' ] );
 
 export async function global( identifier: string, specification: GlobalFlagSpecification ){
 
-  is_alpha_identifier( identifier, '-> global' );
+  is_alpha_identifier( identifier, 'global' );
   if ( Reserved.has( identifier as ReservedType ) ){
 
     throw( `${ identifier } is a reserved word` );

@@ -12,8 +12,8 @@ export function set_short_long( identifiers: Map<'long' | 'short', string>, flag
     throw new Error( `short or long must be defined for flag -> ${flag_identifier}` );
   }
 
-  is_alpha_identifier( short, '-> flag short' );
-  is_alpha_identifier( long, '-> flag long' );
+  is_alpha_identifier( short, 'flag short' );
+  is_alpha_identifier( long, 'flag long' );
   flag_data.set( 'short', short );
   flag_data.set( 'long', long );
 }

@@ -6,6 +6,6 @@ export function set_alias( flag_data: FlagSpecificationType, alias: string, flag
   if( ! alias ){
     throw new Error( `alias must be defined for flag -> ${ flag_identifier }` );
   }
-  is_alpha_identifier( alias, '-> flag alias' );
+  is_alpha_identifier( alias, 'flag alias' );
   flag_data.set( 'alias', alias );
 }
