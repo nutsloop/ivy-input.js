@@ -3,10 +3,11 @@ import { Retrieve } from './retrieve.js';
 
 export async function description(): Promise<string|undefined> {
 
-  const retrieve = new Retrieve( 'description' );
   if( CLIInfo.description !== null ) {
     return CLIInfo.description;
   }
+
+  const retrieve = new Retrieve( 'description' );
 
   const cli_is_local: boolean|string = await retrieve.from( `${process.cwd()}/package.json`, 'local' );
   if( typeof cli_is_local === 'string' ){
