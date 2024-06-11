@@ -1,4 +1,3 @@
-import type { ReservedType } from './constant/reserved.js';
 import type { OptionType } from './specs.js';
 import type { CallBackTypeGlobal, GlobalFlagSpecificationType } from './specs.js';
 
@@ -22,7 +21,7 @@ const cbTypeSet = new Set( [ 'async', 'promise', 'sync' ] );
 export async function global( identifier: string, specification: GlobalFlagSpecification ){
 
   is_alpha_identifier( identifier, 'global' );
-  if ( Reserved.has( identifier as ReservedType ) ){
+  if ( Reserved.has( identifier ) ){
 
     throw( `${ identifier } is a reserved word` );
   }

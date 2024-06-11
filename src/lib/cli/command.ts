@@ -1,4 +1,3 @@
-import type{ ReservedType } from './constant/reserved.js';
 import type { CallBack, CallBackAsync, CallBackPromise, CommandSpecificationType, OptionType, This } from './specs.js';
 
 import { input_setting } from '../run.js';
@@ -157,7 +156,7 @@ export async function command( identifier: string | string[], specification?: Co
 async function process_command( identifier: string, specification?: CommandSpecification ): Promise<void> {
 
   // Check if the identifier is a reserved word.
-  if ( Reserved.has( identifier as ReservedType ) ) {
+  if ( Reserved.has( identifier ) ) {
     throw new CommandValidationError( `${identifier} is a reserved word` );
   }
 

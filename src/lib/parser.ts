@@ -1,4 +1,3 @@
-import type { ReservedType } from './cli/constant/reserved.js';
 import type { FlagArgvOptions } from './cli/specs.js';
 import type { KVPIdentifier } from './parser/key_value_pair.js';
 import type { ProcessArgv } from './run.js';
@@ -59,7 +58,7 @@ export function parser( argv: ShallowCopyProcessArgv ): Promise<ParsedArgv> {
     }
 
     const parsed_argv: ParsedArgv = new Map();
-    if( has_global() && ! Reserved.has( argv[ 0 ] as ReservedType ) ){
+    if( has_global() && ! Reserved.has( argv[ 0 ] ) ){
 
       const error_from = process_global_opts( parsed_argv, argv );
       if( error_from instanceof ReferenceError ){

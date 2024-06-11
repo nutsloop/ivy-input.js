@@ -1,26 +1,54 @@
-export type ReservedType = '--help' |
-  '--version' |
-  '-h' |
-  '-v' |
-  'help' |
-  'no_command' |
-  'version';
+/**
+ * Reserved command identifiers for the CLI.
+ */
+export type ReservedType = string;
 
-export const Reserved: Set<ReservedType> = new Set( [ 'help', 'version', '-h', '--help', '-v', '--version', 'no_command' ] );
+/**
+ * Set of reserved command identifiers.
+ * These commands are reserved and cannot be used as custom command identifiers.
+ */
+export const Reserved: Set<ReservedType> = new Set( [
+  'help',
+  'version',
+  '-h',
+  '--help',
+  '-v',
+  '--version',
+  'no_command'
+] );
 
+/**
+ * Custom error class for Reserved.
+ *
+ * @extends {Error}
+ */
+export class ReservedError extends Error {
+  constructor( message: string ) {
+    super( message );
+    this.name = 'ReservedError';
+  }
+}
+
+/**
+ * Adds new reserved command identifiers to the Reserved set.
+ *
+ * @param {ReservedType | ReservedType[]} reserved - A single reserved word or an array of reserved words.
+ *
+ * @throws {Error} If any of the provided words are already reserved.
+ */
 export function set_reserved( reserved: ReservedType | ReservedType[] ): void {
-  if ( Array.isArray( reserved ) ) {
-    for ( const reserved_word of reserved ) {
-      if ( Reserved.has( reserved_word ) ) {
-        throw( `${reserved_word} is a reserved word` );
-      }
-      Reserved.add( reserved_word );
+
+  const reserved_words = Array.isArray( reserved ) ? reserved : [ reserved ];
+
+  for ( const reserved_word of reserved_words ) {
+    if ( Reserved.has( reserved_word ) ) {
+
+      throw new ReservedError( `${reserved_word} is a reserved word` );
     }
   }
-  else {
-    if ( Reserved.has( reserved ) ) {
-      throw( `${reserved} is a reserved word` );
-    }
-    Reserved.add( reserved );
+
+  // Add all reserved words to the set after validation
+  for ( const reserved_word of reserved_words ) {
+    Reserved.add( reserved_word );
   }
 }
