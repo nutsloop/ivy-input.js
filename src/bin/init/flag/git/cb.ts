@@ -1,4 +1,4 @@
-import { CallBackFlag, CallBackFlagArgvData } from '../../../lib/cli/specs.js';
+import { CallBackFlag, CallBackFlagArgvData } from '../../../../lib/cli/specs.js';
 
 type default_ignores = [
   'node_modules',
@@ -22,6 +22,11 @@ function unique( data: string[], default_ignores: default_ignores ): string[]{
 
   return [ ...new Set( [ ...data, ...default_ignores ] ) ];
 }
+
+export const git_description = 'initialise a project and create a git repository';
+export const git_usage = `input init --git # this will just initialise a git repository.
+input init --git='file.js,directory' # this will initialise a git repository and ignore the given files and directories.
+`;
 
 export const git_cb: CallBackFlag = ( data: CallBackFlagArgvData<null|string[]> ): boolean|string[] => {
 

@@ -1,6 +1,9 @@
 import { readdir, rm } from 'node:fs/promises';
 
-import { CallBackFlagAsync } from '../../../lib/cli/specs.js';
+import { CallBackFlagAsync } from '../../../../lib/cli/specs.js';
+
+export const bare_description = 'initialise a bare project. it will delete all the files and directories in the current|project directory.';
+export const bare_usage = 'input init --bare';
 
 export const bare_cb: CallBackFlagAsync = async ( _data, absolute_path: string ): Promise<boolean> => {
 

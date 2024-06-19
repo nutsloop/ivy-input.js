@@ -2,7 +2,7 @@
 
 import type { GlobalFlagDeclaration } from '../lib/parser/global.js';
 
-import { CLILogic, CallBackGlobalFlag, ParsedArgv } from '../index.js';
+import { CLILogic, ParsedArgv } from '../index.js';
 import {
   cli,
   command,
@@ -12,16 +12,15 @@ import {
   set_cli_info_specification,
   set_global_flag_declaration
 } from '../index.js';
-import {
-  spec_description,
-  spec_usage
-} from './help/text.js';
-import { init_cb } from './init/cb.js';
-import { bare_cb } from './init/flag/bare.js';
-import { git_cb } from './init/flag/git_cb.js';
-import { project_directory_cb } from './init/flag/project-directory.js';
-import { project_name_cb } from './init/flag/project-name.js';
-import { project_version_cb } from './init/flag/project-version.js';
+import { dry_run_cb, dry_run_description, dry_run_usage } from './global/dry-run/cb.js';
+import { spec_description, spec_usage } from './help/text.js';
+import { init_cb, init_description, init_usage } from './init/cb.js';
+import { git_cb, git_description, git_usage } from './init/flag//git/cb.js';
+import { bare_cb, bare_description, bare_usage } from './init/flag/bare/cb.js';
+import { description_cb, description_description, description_usage } from './init/flag/description/cb.js';
+import { directory_cb, directory_description, directory_usage } from './init/flag/directory/cb.js';
+import { name_cb, name_description, name_usage } from './init/flag/name/cb.js';
+import { semver_cb, semver_description, semver_usage } from './init/flag/semver/cb.js';
 
 set_cli_info_specification( {
   description: spec_description,
@@ -29,7 +28,7 @@ set_cli_info_specification( {
   name: '@ivy-industries/input',
   npmjs: 'https://www.npmjs.com/package/@ivy-industries/input',
   usage: spec_usage,
-  version: '1.0.0-alpha.4',
+  version: '1.0.0-alpha.5',
   website: 'https://www.ivy.run'
 } );
 
@@ -42,70 +41,70 @@ set_global_flag_declaration( globals );
 
 const input: CLILogic = async ( parsed_argv: ParsedArgv ): Promise<void> => {
 
-  const dry_run_cb: CallBackGlobalFlag = (): void => {
-    process.env.DRY_RUN = 'true';
-  };
-
   await global( '--dry-run', {
     cb: {
       fn: dry_run_cb,
       type: 'sync'
     },
-    description: 'run the CLI without creating any files.',
+    description: dry_run_description,
     only_for: 'init',
-    usage: 'input --dry-run init'
+    usage: dry_run_usage
   } );
 
   await command( 'init', {
     cb: init_cb,
-    description: 'to initialise a new CLI project, flags are optional.',
+    description: init_description,
     has_flag: true,
     rest: [ process.cwd() ],
-    usage: 'input init'
+    usage: init_usage
   } );
 
-  await flag( [ '--project-name', '-n' ], {
-    alias: 'project-name',
+  await flag( [ '--name', '-n' ], {
+    alias: 'name',
     cb: {
-      fn: project_name_cb,
+      fn: name_cb,
       type: 'sync'
     },
-    description: 'initialise a new CLI project with a name.',
+    description: name_description,
     is_flag_of: 'init',
     type: 'string',
-    usage: 'input init --project-name=<name>'
+    usage: name_usage
   } );
 
-  await flag( [ '--project-version', '-vs' ], {
-    alias: 'project-version',
+  await flag( [ '--semver', '-sv' ], {
+    alias: 'semver',
     cb: {
-      fn: project_version_cb,
+      fn: semver_cb,
       type: 'sync'
     },
-    description: 'initialise a new CLI project with a version.',
+    description: semver_description,
     is_flag_of: 'init',
     type: 'string',
-    usage: 'input init --project-version=<version>'
+    usage: semver_usage
   } );
 
-  await flag( [ '--project-description', '-ds' ], {
-    alias: 'project-description',
-    description: 'initialise a new CLI project with a description.',
-    is_flag_of: 'init',
-    type: 'string',
-    usage: 'input init --project-description=<description>'
-  } );
-
-  await flag( [ '--project-directory', '-d' ], {
-    alias: 'project-directory',
+  await flag( [ '--description', '-ds' ], {
+    alias: 'description',
     cb: {
-      fn: project_directory_cb,
+      fn: description_cb,
       type: 'sync'
     },
-    description: 'initialise a new CLI project in a specific directory.',
+    description: description_description,
     is_flag_of: 'init',
     type: 'string',
-    usage: 'input init --project-directory=<directory>'
+    usage: description_usage
+  } );
+
+  await flag( [ '--directory', '-d' ], {
+    alias: 'directory',
+    cb: {
+      fn: directory_cb,
+      type: 'sync'
+    },
+    description: directory_description,
+    is_flag_of: 'init',
+    type: 'string',
+    usage: directory_usage
   } );
 
   await flag( [ '--git', '-g' ], {
@@ -114,12 +113,10 @@ const input: CLILogic = async ( parsed_argv: ParsedArgv ): Promise<void> => {
       fn: git_cb,
       type: 'sync'
     },
-    description: 'initialise a project and create a git repository',
+    description: git_description,
     is_flag_of: 'init',
     multi_type: [ 'void', 'array' ],
-    usage: `input init --git # this will just initialise a git repository.
-input init --git='file.js,directory' # this will initialise a git repository and ignore the given files and directories.
-`
+    usage: git_usage
   } );
 
   await flag( [ '--bare', '-b' ], {
@@ -129,9 +126,9 @@ input init --git='file.js,directory' # this will initialise a git repository and
       rest: [ process.cwd() ],
       type: 'async'
     },
-    description: 'initialise a bare project. it will delete all the files and directories in the current|project directory.',
+    description: bare_description,
     is_flag_of: 'init',
-    usage: 'input init --bare'
+    usage: bare_usage
   } );
 
   await cli( parsed_argv );

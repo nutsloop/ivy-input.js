@@ -1,6 +1,6 @@
 import { Path } from '@ivy-industries/cross-path';
-import { spawn } from 'child_process';
-import { access, chmod, mkdir, writeFile } from 'fs/promises';
+import { spawn } from 'node:child_process';
+import { access, chmod, mkdir, writeFile } from 'node:fs/promises';
 
 import type { CallBackArgvData, CallBackAsync } from '../../lib/cli/specs.js';
 
@@ -13,30 +13,41 @@ import { tsconfig_json } from './source/tsconfig-json.js';
 
 type OptionType =
   CallBackArgvData<'bare', boolean> &
-  CallBackArgvData<'git', boolean & string[]> &
-  CallBackArgvData<'project-description' | 'project-directory' | 'project-name' | 'project-version', string>
+  CallBackArgvData<'description' | 'directory' | 'name' | 'semver', string> &
+  CallBackArgvData<'git', boolean & string[]>
 ;
 
 const p = new Path();
+
+export const init_description = `initialises a new CLI project. Flags are optional.
+If no options are provided, a new project will be created in a sub-directory of the current working directory. the name of the project and sub-directory will be generated automatically.
+
+If the --directory flag is provided, the project will be created in the specified directory.
+If the --name flag is provided, the name will be added to the package.json file.
+If the --description flag is provided, the description will be added to the package.json file.
+If the --version flag is provided, the version will be added to the package.json file.
+If the --bare flag is provided, everything in the current working directory will be deleted and replaced with the new project. using the current working directory as the root of the new project.
+`;
+export const init_usage = 'input [--dry-run] init [options]';
 
 export const init_cb: CallBackAsync = async ( data: OptionType, absolute_path: string ): Promise<void> => {
 
   const dry_run: boolean = process.env.DRY_RUN === 'true';
   const pkg_json = package_json( {
-    project_description: data?.get( 'project-description' ),
-    project_name: data?.get( 'project-name' ),
-    project_version: data?.get( 'project-version' )
+    project_description: data?.get( 'description' ),
+    project_name: data?.get( 'name' ),
+    project_version: data?.get( 'semver' )
   } );
   const tsc_json = tsconfig_json();
   const src_index_ts = `export {}\n`;
-  const src_bin_index_ts = index_ts( { project_name: data?.get( 'project-name' ) } );
+  const src_bin_index_ts = index_ts( { project_name: data?.get( 'name' ) } );
   const src_lib_bare_ts = bare_ts();
   const src_lib_init_ts = init_ts();
   const git = data?.get( 'git' ) || false;
   const bare = data?.get( 'bare' ) || false;
   const project_dir = bare === true
-    ? p.resolve( absolute_path, `${ data?.get( 'project-directory' ) || ''}` )
-    : p.resolve( absolute_path, `${ data?.get( 'project-directory' ) || generate_name()}` );
+    ? p.resolve( absolute_path, `${ data?.get( 'directory' ) || ''}` )
+    : p.resolve( absolute_path, `${ data?.get( 'directory' ) || generate_name()}` );
   const dir_src = p.resolve( project_dir, 'src' );
   const dir_lib = p.resolve( dir_src, 'lib' );
   const dir_bin = p.resolve( dir_src, 'bin' );
@@ -186,7 +197,7 @@ export const init_cb: CallBackAsync = async ( data: OptionType, absolute_path: s
       process.stdout.write( 'tsc found\n'.blue() );
     } );
 
-    process.stdout.write( '📦 project prerequisites are checked, and a project can be created created\n'.green() );
+    process.stdout.write( '📦 project prerequisites are checked, and a project can be created\n'.green() );
   }
 
   if( dry_run === false ){
