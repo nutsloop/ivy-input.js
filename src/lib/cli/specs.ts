@@ -74,7 +74,7 @@ export type CallBackTypeCommand = {
 };
 
 export type CommandSpecificationType =
-  Map<'cb', CallBack | CallBackAsync> &
+  Map<'cb', CallBack | CallBackAsync | CallBackPromise> &
   Map<'cb_type' | 'description' | 'usage', string> &
   Map<'flag', FlagSpecification> &
   Map<'multi_type', OptionType[]> &
