@@ -156,6 +156,7 @@ export async function command( identifier: string | string[], specification?: Co
 async function process_command( identifier: string, specification?: CommandSpecification ): Promise<void> {
 
   // Check if the identifier is a reserved word.
+  // todo: may be better that throws ReservedError.
   if ( Reserved.has( identifier ) ) {
     throw new CommandValidationError( `${identifier} is a reserved word` );
   }
