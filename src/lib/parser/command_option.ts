@@ -1,11 +1,12 @@
 import type { FlagArgvOptions, OptionType } from '../cli/specs.js';
 import type { ShallowCopyProcessArgv } from '../parser.js';
+import type { KVPIdentifier } from './key_value_pair.js';
 
 import { multi_type, type } from '../cli/type.js';
 import { input_setting } from '../run.js';
 import { is_alpha_identifier } from '../util/is_alpha_identifier.js';
 import { infer_type } from './infer_type.js';
-import { type KVPIdentifier, key_value_pair } from './key_value_pair.js';
+import { key_value_pair } from './key_value_pair.js';
 
 export function command_option( argv0: ShallowCopyProcessArgv[0] ): Map<string, FlagArgvOptions> | Map<string, null>{
 
@@ -21,8 +22,8 @@ export function command_option( argv0: ShallowCopyProcessArgv[0] ): Map<string, 
       throw( `equal sign requires a value @ '${ argv0 }' @ processing command option.` );
     }
 
-    is_alpha_identifier( argv0.split( '=' )[ 0 ], 'parser(argv)' );
     const [ command, option ] = argv0.split( '=' );
+    is_alpha_identifier( command, 'parser(argv)' );
 
     return process_option( option, command );
   }
@@ -51,7 +52,7 @@ function process_option( option: string, command: string ): Map<string, FlagArgv
   return command_option.get( 'command' );
 }
 
-export async function process_type( variable: unknown, single_type: OptionType, multiple_type: OptionType[], identifier: string ){
+export async function process_type( variable: unknown, single_type: OptionType, multiple_type: OptionType[], identifier: string ): Promise<string[]>{
 
   if( single_type ){
 

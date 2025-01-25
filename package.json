@@ -1,6 +1,6 @@
 {
-  "name": "@ivy-industries/input",
-  "version": "1.0.0-alpha.5",
+  "name": "@nutsloop/ivy-input",
+  "version": "1.0.1-alpha.0",
   "license": "Apache-2.0",
   "description": "CLI design library. ESModule",
   "type": "module",
@@ -10,7 +10,7 @@
   },
   "types": "./types/index.d.ts",
   "engines": {
-    "node": "^21"
+    "node": ">=20"
   },
   "files": [
     "bin",
@@ -24,30 +24,29 @@
   "scripts": {
     "build": "npx tsc && chmod u+x ./bin/input.js",
     "clean": "./scripts/clean.sh",
-    "lint": "npx eslint . --ext .ts",
+    "lint": "npx eslint .",
     "lint-fix": "npx eslint . --fix --ext .ts",
     "tsc-watch": "npx tsc-watch --onSuccess \"chmod u+x ./bin/input.js\"",
-    "update": "npx npm-check-updates -u",
-    "eslint-watch": "npx esw --watch . --ext .ts --fix"
+    "update": "npx npm-check-updates -u"
   },
   "devDependencies": {
-    "@types/node": "^20.14.2",
+    "@eslint/js": "^9.19.0",
+    "@types/node": "^22.10.10",
     "@types/semver": "^7.5.8",
     "@types/validate-npm-package-name": "^4.0.2",
-    "@typescript-eslint/eslint-plugin": "^7.13.0",
-    "@typescript-eslint/parser": "^7.13.0",
-    "eslint": "^8.57.0",
-    "eslint-plugin-perfectionist": "^2.11.0",
-    "eslint-watch": "^8.0.0",
-    "npm-check-updates": "^16.14.20",
-    "tsc-watch": "^6.2.0",
-    "typescript": "^5.4.5"
+    "@typescript-eslint/eslint-plugin": "^8.21.0",
+    "@typescript-eslint/parser": "^8.21.0",
+    "eslint": "^9.19.0",
+    "eslint-plugin-perfectionist": "^4.7.0",
+    "npm-check-updates": "^17.1.14",
+    "tsc-watch": "^6.2.1",
+    "typescript": "^5.7.3"
   },
   "dependencies": {
     "@ivy-industries/ansi": "^1.0.0-alpha.1",
     "@ivy-industries/cross-path": "^1.0.0-alpha.1",
-    "semver": "^7.6.2",
-    "validate-npm-package-name": "^5.0.1"
+    "semver": "^7.6.3",
+    "validate-npm-package-name": "^6.0.0"
   },
   "keywords": [
     "cli",
@@ -59,17 +58,17 @@
   "funding": [
     {
       "type": "github",
-      "url": "https://github.com/sponsors/ivy-industries"
+      "url": "https://github.com/sponsors/nutsloop"
     }
   ],
   "author": {
-    "name": "ivy-industries",
-    "email": "grow@ivy.run",
-    "url": "https://github.com/ivy-industries"
+    "name": "nutsloop",
+    "email": "nutsloop@proton.me",
+    "url": "https://github.com/nutsloop"
   },
-  "homepage": "https://github.com/ivy-industries/input#readme",
+  "homepage": "https://github.com/nutsloop/ivy-input.js#readme",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ivy-industries/input.git"
+    "url": "git+https://github.com/nutsloop/ivy-input.js.git"
   }
 }

@@ -3,4 +3,6 @@ types
 bin
 website
 *.js
+!/eslint.config.js
+/data.json
 !src/**/*

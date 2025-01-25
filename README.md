@@ -1,4 +1,4 @@
-# @ivyrun/input
+# @nutsloop/ivy-input.js
 
 ___
 
@@ -14,7 +14,6 @@ ___
 - [Installation](#installation)
 - [Usage](#usage)
   - [simple implementation in one file](#simple-implementation-in-one-file)
-- [JetBrains OSS Licence](#jetbrains-oss-license)
 
 ___
 
@@ -24,7 +23,7 @@ ___
 
 Framework to build CLI applications:
 
-- spawn new thread for complex operation. 
+- spawn new thread for complex operation.
 - [help][-h][--help] commands automatic generation.
 - [version][-v][--version] commands automatic generation.
 - callbacks and callbacks rest-parameters for commands, global flags and flags.
@@ -45,49 +44,44 @@ Framework to build CLI applications:
 
 ___
 
-## Installation Or Boilerplate
-
-### Installation
-
-with this command you can install the package and develop 'from scratch' the project.  
-for a boilerplate project, ready to go, have a look at the next section.
-
-```shell
-npm install @ivyrun/input
-```
+## Boilerplate OR Scratch
 
 ### Boilerplate
 
 with this command you can initialize a boilerplate project.
 
 ```shell
-npx @ivyrun/input init \
-  --project-name='cli-app' \
-  --project-version='1.0.0' \
-  --project-description='another cli app'
+npx @nutsloop/ivy-input init \
+  --name='cli-app' \
+  --semver='1.0.0' \
+  --description='another cli app'
 ```
 
 for a more detailed information, have a look at the [ivyrun/input-boilerplate](./docs/boilerplate.md)
 
-___
+### Scratch
 
-## Usage
+with this command you can install the package and develop 'from scratch' the project.
+
+```shell
+npm install @nutsloop/ivy-input
+```
 
 ___
 
 ### simple implementation in one file.
 
-initialize the project
+initialize a simple JavaScript project.
+
 ```shell
+mkdir ./hello-world && cd ./hello-world
 npm init -y
 npm pkg set type="module"; # mandatory to specify esModule
-npm pkg set name="cli-app"; # let's name the project
+npm pkg set name="hello-world"; # let's name the project
 npm pkg set version="1.0.0"; # let's give it a version
-npm pkg set description="another cli app"; # let's give it a description
+npm pkg set description="another hello world cli app"; # let's give it a description
 
-npm install @ivyrun/input # install the package
-
-echo '{"some": "Jason", "data":["0", "1"]}' >> ./test.json
+npm add @nutsloop/ivy-input # install the package
 
 touch ./index.js
 ```
@@ -95,65 +89,116 @@ touch ./index.js
 ___
 
 > ⚠ remember to give index.js file executable permission
->```shell
->chmod u+x ./index.js
->```
+```shell
+chmod u+x ./index.js
+```
 
 ___
 
 **file index.js**
 
+This hello-world cli application has
+  - one command called `say-it` and
+  - one flag called `--silent`
+
+It doesn't do anything special, it just prints a message to the console.
+If the `--silent` flag is passed, the message will not be printed.
+
 ___
 
 ```javascript
-#!/usr/bin/env -S node --experimental-import-meta-resolve --no-warnings
-import { cli, run, flag, command } from '@ivyrun/input';
+#!/usr/bin/env -S node
+import { cli, run, flag, command } from '@nutsloop/ivy-input';
 
-async function input(parsedARGV) {
-    await command('init', {
-        description: 'init a new project',
-        usage: 'hello-world init',
-        has_flag: true,
-        cb: () => {
-            console.log('init');
+// the logic function where all the commands and flags are defined.
+async function logic(parsed_argv) {
+  // set the SILENCED environment variable to false.
+  process.env.SILENT = 'false'
+  await command('say-it', {
+    description: 'print the message "hello world!".',
+    usage: 'hello-world say-it',
+    has_flag: true,
+      cb: () => {
+        if(process.env.SILENT === 'false'){
+          console.log('hello world!');
         }
+      }
     });
-    await flag('--bare', {
-        description: 'init a new project without any dependencies',
-        usage: 'hello-world init --bare',
-        is_flag_of: 'init',
-        cb: () => {
-            console.log('init --bare');
-        }
-    });
-    await cli(parsedARGV);
+  await flag('--silent', {
+    alias: 'silent',
+    description: 'do not print the hello world message.',
+    usage: 'hello-world say-it --silent',
+    is_flag_of: 'say-it',
+    cb: {
+      fn: () => {
+        process.env.SILENT = 'true';
+      },
+      type: 'sync'
+    }
+  });
+  	// `cli` method will be called when the `run` method parses the process.argv
+  await cli(parsed_argv);
 }
-await run(process.argv, input, 'hello-world');
+// the method `run` will parse the process.argv and call the logic function.
+// no need to remove the first two elements of the process.argv.
+await run(process.argv, logic, 'hello-world');
 ```
 
+### let's go complex.
+
+initialize a simple JavaScript project.
+
+```shell
+mkdir ./read-that && cd ./read-that
+npm init -y
+npm pkg set type="module"; # mandatory to specify esModule
+npm pkg set name="read-that"; # let's name the project
+npm pkg set version="1.0.0"; # let's give it a version
+npm pkg set description="read a Json file. and log the content."; # let's give it a description
+
+npm add @nutsloop/ivy-input # install the package
+
+echo '{"some": "Jason", "data":["0", "1"]}' >> ./data.json
+
+touch ./index.js
+```
+
+___
+
+> ⚠ remember to give index.js file executable permission
+```shell
+chmod u+x ./index.js
+```
+
+___
+
+**file index.js**
+
+This read-that cli application has
+  - one command called `data` and
+  - one flag called `--filename[-f]`
+
+It will read a json file and log the content to the console.
+
+___
+
 ```javascript
-#!/usr/bin/env node --experimental-meta-resolve --no-warnings
+#!/usr/bin/env -S node
 
-import { readFile } from 'node:fs/promises'
-import { command, run } from '@ivyrun/input'
-import { extname } from 'node:path'
+import { access, readFile } from 'node:fs/promises'
+import { command, run, cli, flag } from '@nutsloop/ivy-input'
+import { extname, resolve } from 'node:path'
 
-// The very entry point of the cli application
-const app = async (parsed) => {
+// The very entry of the read-that cli application.
+const logic = async (parsed_argv) => {
 
   // The read command callback function
   const read_cb = async (data) => {
 
     let exitCode = 0
 
-    // Get the filename
-    const filename = `${process.cwd()}/${data.flag['--filename'] || data.flag['-f']}`
-
-    // only json files are allowed
-    if(extname(filename) !== '.json'){
-      console.error('only json file')
-      process.exit(1)
-    }
+    // filename from the given flag is now absolute path.
+    const filename = data.get('filename');
 
     // It reads the file, and if the readFile fails, it returns a json string with the error message given.
     const content = await readFile(filename, { encoding: 'utf-8' }).catch(error => {
@@ -175,65 +220,69 @@ const app = async (parsed) => {
     process.exit(exitCode)
   };
 
-  // Instantiate a new Command and pass to the constructor the parsed argument
-  const read = new Command(parsed)
+  await command('data', {
+      description: 'read a Json file given from the flag --filename[-f]',
+      usage: `npx read-that data --filename='data.json'`,
+      has_flag: true,
+      // to use the `required_flag` property, you need to use the alias given to the flag while defining it.
+      required_flag: [ 'filename' ],
+      cb: read_cb
+  });
 
-  /**
-   *  Define your first command
-   *
-   *  1. name your command
-   *  2. pass the read callback function
-   *  3. give it a description & usage to populate the help system
-   *
-   *  READ COMMAND
-   */
-  await read.define('read', read_cb, {
-    description: 'read a file and print the content',
-    usage: './index.js read --filename=test.json'
-  })
+  // the filename callback function
+  const filename_cb = async (data) => {
+    // only json files are allowed
+    if(extname(data) !== '.json'){
+      console.error('only json file')
+      process.exit(1)
+    }
 
-  /**
-   * Define the flag --filename[-f]
-   *
-   * 1. define the names with a string[] one for short and one for long:
-   *    '--filename', '-f'
-   * 2. populate descriptor argument
-   * 3. give it a description & usage to the descriptor to populate the help system
-   *
-   * READ --FILENAME FLAG
-   */
-  await read.flag(['--filename', '-f'], {
-    short: '-f',
-    long: '--filename',
-    type: 'string',
-    void: false,
-    check: true,
-    description: 'ONLY relative path to the current working dir of the app, ⚠️ no slash or dot needed!',
-    usage: './index.js read --filename=test.json'
-  })
+    // check if the file exists
+    const file_exists = await access(resolve(process.cwd(), data)).then(() => true).catch(() => false)
+    if(!file_exists){
+      console.error('file does not exist')
+      process.exit(1)
+    }
 
-  // This will intercept the given data and execute the routines
-  await read.intercept()
+    return resolve(process.cwd(), data)
+  };
+
+  await flag(['--filename', '-f'], {
+    alias: 'filename',
+    description: `the filename of the json file to read
+ONLY relative path to the current working dir of the app, ⚠️ no initial slash or dot needed!
+`,
+    usage: `npx read-that --filename='data.json'`,
+    is_flag_of: 'data',
+    cb: {
+      type: 'async',
+      fn: filename_cb
+      },
+    type: 'string'
+  });
+
+  // `cli` method will be called when the `run` method parses the process.argv
+  await cli(parsed_argv).catch(console.error);
 };
 
-// - entry_point will process the process.argv data and gives back the object version to app function
-await entry_point(process.argv, app).catch(error => console.error(error))
+// - the `run` method will parse the process.argv and call the logic function.
+await run(process.argv, logic, 'read-that').catch(console.error);
 
 ```
 
 the Command class automatically creates two commands:
 
-- **help:**  
-  to access the doc entries, you need to pass:  
-  - key->value (opts) to the --view flag to retrieve the doc for the flag  
-    where `key` is the `command-name` & `value` is the `flag-name`  
-    - example `./index.js help --view=read:--filename` to retrieve the flag doc  
+- **help:**
+  to access the doc entries, you need to pass:
+  - key->value (opts) to the --view flag to retrieve the doc for the flag
+    where `key` is the `command-name` & `value` is the `flag-name`
+    - example `./index.js help --view=read:--filename` to retrieve the flag doc
   - just the name of the command to the --view flag to retrieve the doc for the command
     - example `./index.js help --view=read` to retrieve the command doc
 
 
-- **version**:  
-  the command version relays to the `package.json` file entry `version` 
+- **version**:
+  the command version relays to the `package.json` file entry `version`
 
 **let's run the app and all its functionalities**
 
@@ -250,16 +299,4 @@ the Command class automatically creates two commands:
 
 ```
 
-
 ___
-
-## JetBrains OSS License
-
-___
-
-I want to thank JetBrains to grant me the Open Source Software license for all their products. This opportunity gives me
-strength to keep on going with my studies and personal project.  
-To learn more about this opportunity, have a look
-at [Licenses for Open Source Development - Community Support](https://www.jetbrains.com/community/opensource/).
-
-_Thank you_

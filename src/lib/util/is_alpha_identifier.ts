@@ -1,9 +1,9 @@
 import { input_setting } from '../run.js';
 
 /**
- * The type of identifier.
+ * The type for the allowed calling function names.
  */
-type IdentifierType =
+type CallingFunctionName =
   'command' |
   'flag alias' |
   'flag long' |
@@ -13,9 +13,9 @@ type IdentifierType =
   'parser(argv)';
 
 /**
- * The allowed identifier types.
+ * The allowed calling function names.
  */
-const allowed_identifier_type: IdentifierType[] = [
+const allowed_calling_function_name: CallingFunctionName[] = [
   'command',
   'flag',
   'global',
@@ -53,15 +53,15 @@ export class IsAlphanumericArgumentError extends Error {
  * Validates whether a given identifier string meets specific criteria based on the `only_alpha` setting.
  *
  * @param identifier - The identifier string to be validated.
- * @param identifier_type - Optional additional information to include in the error message.
- * @throws {IsAlphanumericArgumentError} if the identifier or info arguments are not strings and if the `only_alpha` setting is not a boolean.
+ * @param calling_function_name_ref_error - The name of the callback function that may throw an Error if is_alpha_identifier fails.
+ * @throws {IsAlphanumericArgumentError} if the identifier or calling_function_name_ref_error arguments are not a string.
  * @throws {IsAlphanumericIdentifierError} the identifier contains invalid characters based on the `only_alpha` setting.
  *
  * The function checks the `only_alpha` setting from `input_setting`:
  * - If `only_alpha` is false, the identifier can contain letters, numbers, and dashes.
  * - If `only_alpha` is true, the identifier can only contain letters and dashes.
  */
-export function is_alpha_identifier( identifier: string, identifier_type?: IdentifierType ): void {
+export function is_alpha_identifier( identifier: string, calling_function_name_ref_error?: CallingFunctionName ): void {
 
   // Ensure identifier is a string
   if ( typeof identifier !== 'string' ) {
@@ -69,13 +69,13 @@ export function is_alpha_identifier( identifier: string, identifier_type?: Ident
   }
 
   // Ensure info is a string
-  if ( identifier_type && typeof identifier_type !== 'string' ) {
-    throw new IsAlphanumericArgumentError( `'info' argument must be a string.` );
+  if ( calling_function_name_ref_error && typeof calling_function_name_ref_error !== 'string' ) {
+    throw new IsAlphanumericArgumentError( `'callback_name_ref_error' argument must be a string.` );
   }
 
   // Ensure identifier_type is one of the allowed values
-  if( ! allowed_identifier_type.includes( identifier_type ) ){
-    throw new IsAlphanumericArgumentError( `'identifier_type' argument must be one of the following: 'command', ${allowed_identifier_type.join( ', ' )}.` );
+  if( ! allowed_calling_function_name.includes( calling_function_name_ref_error ) ){
+    throw new IsAlphanumericArgumentError( `'identifier_type' argument must be one of the following: 'command', ${allowed_calling_function_name.join( ', ' )}.` );
   }
 
   // Retrieve the only_alpha setting
@@ -104,6 +104,6 @@ export function is_alpha_identifier( identifier: string, identifier_type?: Ident
 
   // Validate the identifier and throw an error if it doesn't match the pattern
   if ( ! only_alpha_regexp.test( identifier ) ) {
-    throw new IsAlphanumericIdentifierError( `${error_message} ${identifier_type ? ` -> ${identifier_type}` : ''}` );
+    throw new IsAlphanumericIdentifierError( `${error_message} ${calling_function_name_ref_error ? ` -> ${calling_function_name_ref_error}` : ''}` );
   }
 }

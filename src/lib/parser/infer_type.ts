@@ -2,49 +2,58 @@ import type { KVPTypes } from './key_value_pair.js';
 
 import { input_setting } from '../run.js';
 
-const infer_boolean: Map<string, boolean> = new Map( [ [ 'false', false ], [ 'true', true ] ] );
-
 /**
  * Infers the type of the given parameter from string to the appropriate type.
  */
 export function infer_type( parameter: string ): KVPTypes {
 
   // Try to parse it as a number
-  const is_number = try_number( parameter );
-  if( is_number ){
-
-    return is_number;
+  const number = is_number( parameter );
+  if( typeof number !== 'boolean' ){
+    return number;
   }
 
   // Try to parse it as a boolean
-  if( infer_boolean.has( parameter ) ) {
-
-    return infer_boolean.get( parameter );
+  const boolean = is_boolean( parameter );
+  if( typeof boolean === 'boolean' ){
+    return boolean;
   }
 
-  // Try to parse it as a JSON (object or array) or return it as-is
-  return input_setting.get( 'parse_json' )
-    ? try_json( parameter )
-    : parameter;
+  // Try to parse it as a JSON or return the string.
+  return is_json( parameter );
 }
 
-function try_json( parameter: string ): KVPTypes {
+function is_number( parameter: string ): boolean | number {
 
-  try {
-
-    return JSON.parse( parameter );
-  }
-  catch ( error ) {
-
-    return parameter;
-  }
-}
-
-function try_number( parameter: string ): boolean | number {
-
-  const number = Number( parameter );
+  const number = Number( parameter.trim() );
 
   return isNaN( number )
     ? false
     : number;
+}
+
+function is_boolean( parameter: string ): boolean {
+
+  const infer_boolean: Map<string, boolean> = new Map( [ [ 'false', false ], [ 'true', true ] ] );
+  if( infer_boolean.has( parameter ) ){
+    return infer_boolean.get( parameter )!;
+  }
+}
+
+function is_json( parameter: string ): KVPTypes {
+
+  if( input_setting.get( 'parse_json' ) === false ){
+    return parameter;
+  }
+
+  if( ! parameter.startsWith( '{' ) && ! parameter.endsWith( '}' ) ){
+    return parameter;
+  }
+
+  try {
+    return JSON.parse( parameter );
+  }
+  catch{/**/}
+
+  return parameter;
 }

@@ -24,12 +24,12 @@ import { semver_cb, semver_description, semver_usage } from './init/flag/semver/
 
 set_cli_info_specification( {
   description: spec_description,
-  github: 'https://www.github.com/ivy-industries/input',
-  name: '@ivy-industries/input',
-  npmjs: 'https://www.npmjs.com/package/@ivy-industries/input',
+  github: 'https://www.github.com/nutsloop/ivy-input.js',
+  name: '@nutsloop/ivy-input',
+  npmjs: 'https://www.npmjs.com/~nutsloop',
   usage: spec_usage,
-  version: '1.0.0-alpha.5',
-  website: 'https://www.ivy.run'
+  version: '1.0.1-alpha.0',
+  website: 'https://github.com/sponsors/nutsloop'
 } );
 
 const globals: GlobalFlagDeclaration = new Map();

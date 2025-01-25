@@ -1,4 +1,4 @@
-# ivyrun/input - boilerplate
+# @nutsloop/ivy-input - boilerplate
 
 ___
 
@@ -7,10 +7,10 @@ ___
 By using the command below, you can initialize a boilerplate project.
 
 ```shell
-npx @ivyrun/input init \
-  --project-name='cli-app' \
-  --project-version='1.0.0' \
-  --project-description='another cli app'
+npx @nutsloop/ivy-input init \
+  --name='cli-app' \
+  --swemver='1.0.0' \
+  --description='another cli app'
 ```
 
 - It is TypeScript ready, and it will be compiled to JavaScript automatically.
@@ -39,9 +39,9 @@ ___
 contents of `./src/index.ts`
 
 ```typescript
-#!/usr/bin/env -S node --experimental-import-meta-resolve --no-warnings
-import { cli, run, flag, command } from '@ivyrun/input';
-import type { parsedARGV } from '@ivyrun/input';
+#!/usr/bin/env -S node
+import { cli, run, flag, command } from '@nutsloop/ivy-input';
+import type { parsedARGV } from '@nutsloop/ivy-input';
 
 async function input( parsedARGV: parsedARGV ): Promise<void>{
 
@@ -79,7 +79,7 @@ once you have the boilerplate project, you can run the following command to chec
 ./bin/index.js init --bare
 ```
 
-the out put should be:
+the output should be:
 
 ```shell
 init --bare
