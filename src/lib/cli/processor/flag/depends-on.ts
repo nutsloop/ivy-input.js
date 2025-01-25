@@ -21,9 +21,12 @@ export function depends_on( specs_flag: FlagSpecificationType, parsed_argv_flag:
 
     if ( or_dependency !== undefined ){
       for ( const dependency of or_dependency ) {
-        if ( ! parsed_argv_flag.has( dependency ) ) {
-          dependency_satisfied = false;
+        if ( parsed_argv_flag.has( dependency ) ) {
+          dependency_satisfied = true;
           break;
+        }
+        else{
+          dependency_satisfied = false;
         }
       }
     }
@@ -43,9 +46,12 @@ export function depends_on( specs_flag: FlagSpecificationType, parsed_argv_flag:
       }
       if ( or_dependency !== undefined ){
         for ( const or_dependency_flag of or_dependency ) {
-          if ( ! parsed_argv_flag.has( or_dependency_flag ) ) {
-            dependency_satisfied = false;
+          if ( parsed_argv_flag.has( or_dependency_flag ) ) {
+            dependency_satisfied = true;
             break;
+          }
+          else{
+            dependency_satisfied = false;
           }
         }
       }
