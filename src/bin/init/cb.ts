@@ -1,4 +1,4 @@
-import { Path } from '@ivy-industries/cross-path';
+import { Path } from '@nutsloop/ivy-cross-path';
 import { spawn } from 'node:child_process';
 import { access, chmod, mkdir, writeFile } from 'node:fs/promises';
 

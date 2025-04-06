@@ -1,4 +1,4 @@
-import { async_import_meta_resolve } from '@ivy-industries/cross-path';
+import { async_import_meta_resolve } from '@nutsloop/ivy-cross-path';
 import { spawnSync } from 'node:child_process';
 import { constants } from 'node:fs';
 import { access } from 'node:fs/promises';

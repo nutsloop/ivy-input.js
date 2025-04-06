@@ -1,4 +1,4 @@
-import { cwd } from '@ivy-industries/cross-path';
+import { cwd } from '@nutsloop/ivy-cross-path';
 import cluster from 'node:cluster';
 import { inspect } from 'node:util';
 

@@ -1,4 +1,4 @@
-import { extends_proto } from '@ivy-industries/ansi';
+import { extends_proto } from '@nutsloop/ivy-ansi';
 import worker_threads from 'worker_threads';
 
 import { thread_getter } from './getter.js';
