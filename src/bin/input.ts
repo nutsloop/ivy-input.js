@@ -28,7 +28,7 @@ set_cli_info_specification( {
   name: '@nutsloop/ivy-input',
   npmjs: 'https://www.npmjs.com/~nutsloop',
   usage: spec_usage,
-  version: '1.0.1-alpha.1',
+  version: '1.1.0-alpha.0',
   website: 'https://github.com/sponsors/nutsloop'
 } );
 
