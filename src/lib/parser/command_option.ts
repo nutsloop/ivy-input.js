@@ -8,7 +8,7 @@ import { is_alpha_identifier } from '../util/is_alpha_identifier.js';
 import { infer_type } from './infer_type.js';
 import { key_value_pair } from './key_value_pair.js';
 
-export function command_option( argv0: ShallowCopyProcessArgv[0] ): Map<string, FlagArgvOptions> | Map<string, null>{
+export function command_option( argv0: ShallowCopyProcessArgv[0] ): Map<string, FlagArgvOptions>{
 
   if( argv0.includes( '=' ) && ! input_setting.get( 'command_accepts_options' ) ){
 
@@ -30,7 +30,7 @@ export function command_option( argv0: ShallowCopyProcessArgv[0] ): Map<string, 
 
   is_alpha_identifier( argv0, 'parser(argv)' );
 
-  return new Map( [ [ argv0, null ] ] );
+  return new Map( [ [ argv0, null as unknown as FlagArgvOptions ] ] );
 }
 
 function process_option( option: string, command: string ): Map<string, FlagArgvOptions>{
@@ -52,7 +52,7 @@ function process_option( option: string, command: string ): Map<string, FlagArgv
   return command_option.get( 'command' );
 }
 
-export async function process_type( variable: unknown, single_type: OptionType, multiple_type: OptionType[], identifier: string ): Promise<string[]>{
+export async function process_type( variable: unknown, single_type: OptionType, multiple_type: OptionType[], identifier: string ): Promise<string[]|void>{
 
   if( single_type ){
 
