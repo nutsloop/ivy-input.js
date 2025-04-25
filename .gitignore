@@ -1,7 +1,8 @@
 lib
 types
 bin
-website
+.tsbuildinfo
+*.js.map
 *.js
 !/eslint.config.js
 /data.json
