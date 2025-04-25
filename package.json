@@ -1,6 +1,6 @@
 {
   "name": "@nutsloop/ivy-input",
-  "version": "1.2.0-alpha.0",
+  "version": "1.2.1-alpha.1",
   "license": "Apache-2.0",
   "description": "CLI design library. ESModule",
   "type": "module",
@@ -23,10 +23,11 @@
     "access": "public"
   },
   "scripts": {
-    "build": "npx tsc && chmod u+x ./bin/input.js",
+    "build": "./scripts/build.sh",
+    "chmod.u+x-fix": "./scripts/chmod.u+x.sh",
     "clean": "./scripts/clean.sh",
-    "lint": "npx eslint .",
-    "lint-fix": "npx eslint . --fix --ext .ts",
+    "eslint": "npx eslint .",
+    "eslint-fix": "npx eslint . --fix --ext .ts",
     "tsc-watch": "npx tsc-watch --onSuccess \"chmod u+x ./bin/input.js\"",
     "update": "npx npm-check-updates -u"
   },
