@@ -1,11 +1,11 @@
 import validate from 'validate-npm-package-name';
 
-import type { CallBackFlag, CallBackFlagArgvData } from '../../../../lib/cli/specs.js';
+import type { CallBackFlag } from '../../../../lib/cli/specs.js';
 
 export const name_description = 'initialise a new CLI project with the given name. max length is 214 characters.';
 export const name_usage = 'input init --name=<name>';
 
-export const name_cb: CallBackFlag = ( data: CallBackFlagArgvData<string> ): string => {
+export const name_cb: CallBackFlag<string> = ( data: string ): string => {
 
   if( data.length > 214 ){
 

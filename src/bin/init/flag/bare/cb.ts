@@ -1,11 +1,11 @@
 import { readdir, rm } from 'node:fs/promises';
 
-import { CallBackFlagAsync } from '../../../../lib/cli/specs.js';
+import { CallBackFlagAsync, FlagArgvOptions } from '../../../../lib/cli/specs.js';
 
 export const bare_description = 'initialise a bare project. it will delete all the files and directories in the current|project directory.';
 export const bare_usage = 'input init --bare';
 
-export const bare_cb: CallBackFlagAsync = async ( _data, absolute_path: string ): Promise<boolean> => {
+export const bare_cb: CallBackFlagAsync<FlagArgvOptions, [absolute_path: string]> = async ( _data, absolute_path: string ): Promise<boolean> => {
 
   const recursive_dir = await readdir( absolute_path, { withFileTypes: true } );
 

@@ -1,11 +1,11 @@
 import semver from 'semver/preload.js';
 
-import type { CallBackFlag, CallBackFlagArgvData } from '../../../../lib/cli/specs.js';
+import type { CallBackFlag } from '../../../../lib/cli/specs.js';
 
 export const semver_description = 'initialise a new CLI project with the given semver.';
 export const semver_usage = 'input init --semver=<semver>';
 
-export const semver_cb: CallBackFlag = ( data: CallBackFlagArgvData<string> ): string => {
+export const semver_cb: CallBackFlag<string> = ( data: string ): string => {
 
   if( semver.valid( data ) === null ){
 

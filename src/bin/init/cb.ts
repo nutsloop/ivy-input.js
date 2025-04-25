@@ -11,7 +11,7 @@ import { init_ts } from './source/init-ts.js';
 import { package_json } from './source/package-json.js';
 import { tsconfig_json } from './source/tsconfig-json.js';
 
-type OptionType =
+export type OptionType =
   CallBackArgvData<'bare', boolean> &
   CallBackArgvData<'description' | 'directory' | 'name' | 'semver', string> &
   CallBackArgvData<'git', boolean & string[]>
@@ -30,7 +30,7 @@ If the --bare flag is provided, everything in the current working directory will
 `;
 export const init_usage = 'input [--dry-run] init [options]';
 
-export const init_cb: CallBackAsync = async ( data: OptionType, absolute_path: string ): Promise<void> => {
+export const init_cb: CallBackAsync<OptionType, [absolute_path: string]> = async ( data: OptionType, absolute_path: string ): Promise<void> => {
 
   const dry_run: boolean = process.env.DRY_RUN === 'true';
   const pkg_json = package_json( {
