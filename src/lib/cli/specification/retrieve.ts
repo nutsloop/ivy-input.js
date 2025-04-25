@@ -69,6 +69,7 @@ export class Retrieve{
       }
 
       // break omitted: going on looking for the global version if module failed.
+      // @ts-expect-error break omitted: going on looking for the global version if module failed.
       case 'global': {
 
         if( ! goto_default ) {
