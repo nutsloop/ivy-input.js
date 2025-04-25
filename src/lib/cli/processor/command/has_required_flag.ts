@@ -3,7 +3,7 @@ import type { CommandSpecificationType, FlagArgvOptions, FlagSpecification } fro
 
 import { CommandRequiresFlag } from '../command.js';
 
-export function has_require_flag( selected_command: CommandSpecificationType, identifier: string, parsed_argv: ParsedArgv, parsed_argv_flag: Map<string, FlagArgvOptions>, specs_command_flag: FlagSpecification ){
+export function has_require_flag( selected_command: CommandSpecificationType, identifier: string, _parsed_argv: ParsedArgv, parsed_argv_flag: Map<string, FlagArgvOptions>, specs_command_flag: FlagSpecification ){
 
   // ONLY use the alias of the flag instead of the flag itself.
   if ( selected_command.has( 'required_flag' ) ) {
