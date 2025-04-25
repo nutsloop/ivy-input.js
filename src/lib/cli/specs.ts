@@ -17,15 +17,15 @@ export type CallBackFlagReturn<T = FlagArgvOptions | unknown | unknown[] | void>
  *              - to the `flag_cb` is passed the flag value<argv> and the rest_args if any
  *              - to the `command_cb` is passed the parsed flag Map<string, argv> and the rest_args if any
  */
-export type CallBack = ( cb_data: CallBackArgvData, ...cb_rest: CallBackRestArgs ) => void;
-export type CallBackAsync = ( cb_data: CallBackArgvData, ...cb_rest: CallBackRestArgs ) => Promise<void>;
-export type CallBackPromise = ( cb_data: CallBackArgvData, ...cb_rest: CallBackRestArgs ) => Promise<unknown>;
-export type CallBackFlag = ( cb_data: CallBackFlagArgvData, ...cb_rest: CallBackRestArgs ) => CallBackFlagReturn;
-export type CallBackFlagAsync = ( cb_data: CallBackFlagArgvData, ...cb_rest: CallBackRestArgs ) => Promise<CallBackFlagReturn>;
-export type CallBackFlagPromise = ( cb_data: CallBackFlagArgvData, ...cb_rest: CallBackRestArgs ) => Promise<CallBackFlagReturn<unknown>>;
-export type CallBackGlobalFlag = ( cb_data: CallBackFlagArgvData, ...cb_rest: CallBackRestArgs ) => void;
-export type CallBackGlobalFlagAsync = ( cb_data: CallBackFlagArgvData, ...cb_rest: CallBackRestArgs ) => Promise<void>;
-export type CallBackGlobalFlagPromise = ( cb_data: CallBackFlagArgvData, ...cb_rest: CallBackRestArgs ) => Promise<unknown>;
+export type CallBack<T extends CallBackArgvData = CallBackArgvData, R extends CallBackRestArgs = CallBackRestArgs> = ( cb_data: T, ...cb_rest: R ) => void;
+export type CallBackAsync<T extends CallBackArgvData = CallBackArgvData, R extends CallBackRestArgs = CallBackRestArgs> = ( cb_data: T, ...cb_rest: R ) => Promise<void>;
+export type CallBackPromise<T extends CallBackArgvData = CallBackArgvData, R extends CallBackRestArgs = CallBackRestArgs> = ( cb_data: T, ...cb_rest: R ) => Promise<unknown>;
+export type CallBackFlag<T extends FlagArgvOptions = FlagArgvOptions, R extends CallBackRestArgs = CallBackRestArgs> = ( cb_data: T, ...cb_rest: R ) => CallBackFlagReturn;
+export type CallBackFlagAsync<T extends FlagArgvOptions = FlagArgvOptions, R extends CallBackRestArgs = CallBackRestArgs> = ( cb_data: T, ...cb_rest: R ) => Promise<CallBackFlagReturn>;
+export type CallBackFlagPromise<T extends FlagArgvOptions = FlagArgvOptions, R extends CallBackRestArgs = CallBackRestArgs> = ( cb_data: T, ...cb_rest: R ) => Promise<CallBackFlagReturn<unknown>>;
+export type CallBackGlobalFlag<T extends FlagArgvOptions = FlagArgvOptions, R extends CallBackRestArgs = CallBackRestArgs> = ( cb_data: T, ...cb_rest: R ) => void;
+export type CallBackGlobalFlagAsync<T extends FlagArgvOptions = FlagArgvOptions, R extends CallBackRestArgs = CallBackRestArgs> = ( cb_data: T, ...cb_rest: R ) => Promise<void>;
+export type CallBackGlobalFlagPromise<T extends FlagArgvOptions = FlagArgvOptions, R extends CallBackRestArgs = CallBackRestArgs> = ( cb_data: T, ...cb_rest: R ) => Promise<unknown>;
 
 export type CallBackTypeFlag = {
   fn: CallBackFlag | CallBackFlagAsync | CallBackFlagPromise;
