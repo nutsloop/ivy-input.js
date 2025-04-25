@@ -12,7 +12,7 @@ import { CLISpecification } from './specs.js';
  * for a command, including its callback function, description, options, and usage instructions.
  * It allows for extensive customization of commands to suit different needs and scenarios.
  */
-type CommandSpecification = {
+export type CommandSpecification<T> = {
   /**
    * The callback function to be executed when the command is invoked.
    * Can be either:
@@ -24,7 +24,7 @@ type CommandSpecification = {
    * returning the result in case of a synchronous function or the fulfilled or rejected result
    * from the promise/async function.
    */
-  cb?: CallBack | CallBackAsync | CallBackPromise;
+  cb?: T;
 
   /**
    * A brief description of what the command does.
@@ -119,7 +119,7 @@ export class CommandValidationError extends Error {
  *   - based on is_alpha_identifier function.
  *   - based on the process_command function.
  */
-export async function command( identifier: string | string[], specification?: CommandSpecification ): Promise<void>{
+export async function command<T>( identifier: string | string[], specification?: CommandSpecification<T> ): Promise<void>{
 
   if( Array.isArray( identifier ) ){
 
@@ -153,7 +153,7 @@ export async function command( identifier: string | string[], specification?: Co
  *   - If CommandSpecification.this is set but the cb is an anonymous function.
  *   - If CommandSpecification.rest and|or CommandSpecification.this are defined but cb is not.
  */
-async function process_command( identifier: string, specification?: CommandSpecification ): Promise<void> {
+async function process_command<T>( identifier: string, specification?: CommandSpecification<T> ): Promise<void> {
 
   // Check if the identifier is a reserved word.
   // todo: may be better that throws ReservedError.
@@ -219,7 +219,7 @@ async function process_command( identifier: string, specification?: CommandSpeci
       command_data.set( 'cb_type', 'sync' );
     }
 
-    command_data.set( 'cb', specification.cb );
+    command_data.set( 'cb', specification.cb as unknown as CallBack | CallBackAsync | CallBackPromise );
 
     if ( specification?.rest ) {
       command_data.set( 'rest', specification.rest );
