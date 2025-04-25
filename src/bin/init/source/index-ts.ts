@@ -1,5 +1,5 @@
 type index_ts_option = {
-  project_name: string;
+  project_name: string|undefined;
 }
 export function index_ts( option: index_ts_option ): string{
 
