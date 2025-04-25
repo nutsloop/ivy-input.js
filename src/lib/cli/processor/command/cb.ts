@@ -37,7 +37,7 @@ export async function execute_cb( command: CommandSpecification, command_identif
     const command_this_data = command.get( command_identifier )?.get( 'this' );
     const command_data = new Map();
     command_data.set( 'this', command_this_data );
-    command_data.set( 'command_identifier', command_identifier );
+    command_data.set( 'command-identifier', command_identifier );
 
     if ( command_cb_type === 'async' ) {
 
