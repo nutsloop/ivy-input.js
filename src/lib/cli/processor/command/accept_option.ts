@@ -3,7 +3,7 @@ import type { OptionType } from '../../specs.js';
 import { process_type } from '../../../parser/command_option.js';
 import { input_setting } from '../../../run.js';
 
-export async function accept_option( identifier: string, option: unknown, type: OptionType, multiple_types: OptionType[] ): Promise<unknown[]>{
+export async function accept_option( identifier: string, option: unknown, type: OptionType, multiple_types: OptionType[] ): Promise<unknown[] | void>{
 
   let type_check = type;
   if( ! input_setting.get( 'command_accepts_options' ) ){
