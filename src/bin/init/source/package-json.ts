@@ -1,7 +1,7 @@
 type package_json_option = {
-  project_description: string;
-  project_name: string;
-  project_version: string;
+  project_description: string|undefined;
+  project_name: string|undefined;
+  project_version: string|undefined;
 }
 
 import { generate_name } from '../../constant/project-name.js';
