@@ -19,9 +19,9 @@ export type FlagThreadSpecification = {
   thread_cb_path: string;
 } | false;
 
-type FlagSpecification = {
+type FlagSpecification<T> = {
   alias: string;
-  cb?: CallBackTypeFlag;
+  cb?: T;
   depends_on?: string | string[];
   description?: string;
   has_conflict?: string | string[];
@@ -40,7 +40,7 @@ type FlagSpecification = {
   void?: boolean;
 }
 
-export async function flag( id: string|string[], specification: FlagSpecification ): Promise<void>{
+export async function flag<T>( id: string|string[], specification: FlagSpecification<T> ): Promise<void>{
 
   if( Array.isArray( specification.is_flag_of ) ){
 
@@ -81,19 +81,19 @@ export async function flag( id: string|string[], specification: FlagSpecificatio
   }
 }
 
-function set_flag( identifier: string|string[], specification: FlagSpecification ): void{
+function set_flag<T>( identifier: string|string[], specification: FlagSpecification<T> ): void{
   if( Array.isArray( identifier ) ){
 
     for( const flag of identifier ){
 
       is_alpha_identifier( flag, 'flag' );
-      process_flag( flag, specification );
+      process_flag( flag, specification as FlagSpecification<CallBackTypeFlag> );
     }
   }
   else{
 
     is_alpha_identifier( identifier, 'flag' );
-    process_flag( identifier, specification );
+    process_flag( identifier, specification as FlagSpecification<CallBackTypeFlag> );
   }
 }
 
@@ -116,7 +116,7 @@ function multi_command_not_defined( id: string[] ): Map<'failed' | string, boole
   return command_check;
 }
 
-function process_flag( flag: string, specification: FlagSpecification ){
+function process_flag( flag: string, specification: FlagSpecification<CallBackTypeFlag> ){
 
   is_reserved( flag );
   already_defined( flag, specification.is_flag_of_command );
